@@ -89,21 +89,21 @@ void grid() {
 // Currently works correctly with screen_scale, translation and rotation.
 void mouse_point() {
   
-  print("Mouse point: ");
-  switch(screen_rotate) {
-    case 0: 
-      println(  (mouseX/screen_scale - mx) + ", " +  (mouseY/screen_scale - my) );
-      break;
-    case 1: 
-      println(  (mouseY/screen_scale - my) + ", " + -(mouseX/screen_scale - mx) );
-      break;
-    case 2: 
-      println( -(mouseX/screen_scale - mx) + ", " + -(mouseY/screen_scale - my) );
-      break;
-    case 3: 
-      println( -(mouseY/screen_scale - my) + ", " +  (mouseX/screen_scale - mx) );
-      break;
-   }
+  // print("Mouse point: ");
+  // switch(screen_rotate) {
+  //   case 0: 
+  //     println(  (mouseX/screen_scale - mx) + ", " +  (mouseY/screen_scale - my) );
+  //     break;
+  //   case 1: 
+  //     println(  (mouseY/screen_scale - my) + ", " + -(mouseX/screen_scale - mx) );
+  //     break;
+  //   case 2: 
+  //     println( -(mouseX/screen_scale - mx) + ", " + -(mouseY/screen_scale - my) );
+  //     break;
+  //   case 3: 
+  //     println( -(mouseY/screen_scale - my) + ", " +  (mouseX/screen_scale - mx) );
+  //     break;
+  //  }
 }
   
 ///////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -5,13 +5,13 @@
 
 class PFM_original implements pfm {
 
-  final int    squiggle_length = 500;      // How often to lift the pen
-  final int    adjustbrightness = 10;       // How fast it moves from dark to light, over-draw
-  final float  desired_brightness = 250;   // How long to process.  You can always stop early with "s" key
-  final int    squiggles_till_first_change = 190;
+  final int    squiggle_length = 1000;      // How often to lift the pen
+  final int    adjustbrightness = 2;       // How fast it moves from dark to light, over-draw
+  final float  desired_brightness = 254;   // How long to process.  You can always stop early with "s" key
+  final int    squiggles_till_first_change = 250;
 
-  int          tests = 13;                 // Reasonable values:  13 for development, 720 for final
-  int          line_length = int(random(3, 40));  // Reasonable values:  3 through 100
+  int          tests = 100;                 // Reasonable values:  13 for development, 720 for final
+  int          line_length = int(random(3, 30));  // Reasonable values:  3 through 100
 
   int          squiggle_count;
   int          darkest_x;
@@ -21,26 +21,7 @@ class PFM_original implements pfm {
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void pre_processing() {
-    image_crop();
     image_scale(int(image_size_x / pen_width));
-    //image_sharpen(img);
-    //image_blurr(img);
-    //image_unsharpen(img, 5);
-    image_unsharpen(img, 4);
-    image_unsharpen(img, 3);
-    //image_unsharpen(img, 2);
-    //image_unsharpen(img, 1);
-    //image_motion_blur(img);
-    //image_outline(img);
-    //image_edge_detect(img);
-    //image_sobel(img, 1.0, 0);
-    //image_posterize(6);
-    //image_erode();
-    //image_dilate();
-    //image_invert();
-    //image_blur(2);
-    image_boarder("b1.png", 0, 0);
-    image_boarder("b11.png", 0, 0);
     image_desaturate();
   }
   
@@ -99,7 +80,7 @@ class PFM_original implements pfm {
     // Finds the darkest square area by down sampling the img into a much smaller area then finding 
     // the darkest pixel within that.  It returns a random pixel within that darkest area.
     
-    int area_size = 10;
+    int area_size = 5;
     darkest_value = 999;
     int darkest_loc = 1;
     
@@ -133,9 +114,9 @@ class PFM_original implements pfm {
     //start_angle = 34 + degrees( ( sin(radians(start_x/9+46)) + cos(radians(start_y/-7+26)) ));
     //if (squiggle_count <220) { tests = 20; } else { tests = 2; }
     //start_angle = random(20, 1);       // Cuba 1
-    start_angle = random(-72, -52);    // Spitfire
+    //start_angle = random(-72, -52);    // Spitfire
     //start_angle = random(-120, -140);  // skier
-    //start_angle = random(-360, -1);    // gradiant magic
+    start_angle = random(-360, -1);    // gradiant magic
     //start_angle = squiggle_count % 360;
     //start_angle += squiggle_count/4;
     //start_angle = -45;
@@ -195,8 +176,6 @@ class PFM_original implements pfm {
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void output_parameters() {
-    gcode_comment("adjustbrightness: " + adjustbrightness);
-    gcode_comment("squiggle_length: " + squiggle_length);
   }
 
 }

@@ -3,8 +3,7 @@
 class botDrawing {
   private int line_count = 0;
   botLine[] lines = new botLine[10000000];
-  String gcode_comment = "";
-  
+
   void botDrawing() {
   }
 
@@ -35,41 +34,6 @@ class botDrawing {
     }
   }
 
-  void render_to_pdf (int line_count) {
-    String pdfname = "gcode\\gcode_" + basefile_selected + ".pdf";
-    PGraphics pdf = createGraphics(img.width, img.height, PDF, pdfname);
-    pdf.beginDraw();
-    pdf.background(255, 255, 255);
-    for(int i=line_count; i>0; i--) {
-      if(lines[i].pen_down) {
-        color c = copic.get_original_color(copic_sets[current_copic_set][lines[i].pen_number]);
-        pdf.stroke(c, 255);
-        pdf.line(lines[i].x1, lines[i].y1, lines[i].x2, lines[i].y2);
-      }
-    }
-    pdf.dispose();
-    pdf.endDraw();
-    println("PDF created:  " + pdfname);
-  }
-
-  void render_each_pen_to_pdf (int line_count) {
-    for (int p=0; p<=pen_count-1; p++) {
-      String pdfname = "gcode\\gcode_" + basefile_selected + "_pen" + p + "_" + copic_sets[current_copic_set][p] + ".pdf";
-      PGraphics pdf = createGraphics(img.width, img.height, PDF, pdfname);
-      pdf.beginDraw();
-      pdf.background(255, 255, 255);
-      for (int i=line_count; i>0; i--) {
-        if (lines[i].pen_down & lines[i].pen_number == p) {
-          color c = copic.get_original_color(copic_sets[current_copic_set][lines[i].pen_number]);
-          pdf.stroke(c, 255);
-          pdf.line(lines[i].x1, lines[i].y1, lines[i].x2, lines[i].y2);
-        }
-      }
-      pdf.dispose();
-      pdf.endDraw();
-      println("PDF created:  " + pdfname);
-    }
-  }
   
   void set_pen_continuation_flags () {
     float prev_x = 123456.0;
@@ -90,7 +54,7 @@ class botDrawing {
       prev_pen_down = lines[i].pen_down;
       prev_pen_number = lines[i].pen_number;
     }
-    println("set_pen_continuation_flags");
+    //println("set_pen_continuation_flags");
   }
 
   void addline(int pen_number_, boolean pen_down_, float x1_, float y1_, float x2_, float y2_) {
@@ -103,7 +67,7 @@ class botDrawing {
   }
   
   public void evenly_distribute_pen_changes (int line_count, int total_pens) {
-    println("evenly_distribute_pen_changes");
+    // println("evenly_distribute_pen_changes");
     for (int i=1; i<=line_count; i++) {
       int cidx = (int)map(i - 1, 0, line_count, 1, total_pens);
       lines[i].pen_number = cidx;
@@ -122,7 +86,7 @@ class botDrawing {
       }
       if (p > total_pens - 1) {
         // Hacky fix for off by one error
-        println("ERROR: distribute_pen_changes_according_to_percentages, p:  ", p);
+        // println("ERROR: distribute_pen_changes_according_to_percentages, p:  ", p);
         p = total_pens - 1;
       }
       lines[i].pen_number = p;

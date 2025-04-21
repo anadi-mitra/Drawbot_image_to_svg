@@ -4,26 +4,26 @@
 
 class PFM_squares implements pfm {
 
-  final int    squiggle_length = 1000;      // How often to lift the pen
-  final int    adjustbrightness = 9;        // How fast it moves from dark to light, over-draw
-  final float  desired_brightness = 250;    // How long to process.  You can always stop early with "s" key
+  final int    squiggle_length = 2000;      // How often to lift the pen
+  final int    adjustbrightness = 5;        // How fast it moves from dark to light, over-draw
+  final float  desired_brightness = 255;    // How long to process.  You can always stop early with "s" key
  
   int          tests = 4;                  // Reasonable values:  13 for development, 720 for final
-  int          line_length = 30;           // Reasonable values:  3 through 100
+  int          line_length = int(random(3, 30));;           // Reasonable values:  3 through 100
  
   int          squiggle_count;
   int          darkest_x;
   int          darkest_y;
   float        darkest_value;
-  float        darkest_neighbor = 256;
+  float        darkest_neighbor = 200;
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void pre_processing() {
-    image_crop();
-    image_scale(1000);
-    image_unsharpen(img, 3);
-    image_boarder("b6.png", 0, 0);
-    image_desaturate();
+    // image_crop();
+    // image_scale(1000);
+    // image_unsharpen(img, 3);
+    // image_boarder("b6.png", 0, 0);
+     image_desaturate();
   }
   
   /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +67,7 @@ class PFM_squares implements pfm {
     for (int loc=0; loc < img.width * img.height; loc++) {
       float r = brightness(img.pixels[loc]);
       if (r < darkest_value) {
-        darkest_value = r + random(1);
+        darkest_value = r + random(millis());
         darkest_loc = loc;
       }
     }
@@ -82,7 +82,7 @@ class PFM_squares implements pfm {
     // the darkest pixel within that.  It returns a random pixel within that darkest area.
     
     int area_size = 10;
-    darkest_value = 999;
+    darkest_value = millis()%1000;
     int darkest_loc = 1;
     
     PImage img2;
@@ -105,7 +105,7 @@ class PFM_squares implements pfm {
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   private void find_darkest_neighbor(int start_x, int start_y) {
-    darkest_neighbor = 257;
+    darkest_neighbor = millis()%500;
     float start_angle;
     float delta_angle;
     
@@ -153,8 +153,6 @@ class PFM_squares implements pfm {
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void output_parameters() {
-    gcode_comment("adjustbrightness: " + adjustbrightness);
-    gcode_comment("squiggle_length: " + squiggle_length);
   }
 
 }
