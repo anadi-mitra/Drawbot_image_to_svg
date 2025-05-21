@@ -7,12 +7,8 @@
 
 class PFM_spiral implements pfm {
 
-  
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void pre_processing() {
-    // image_crop();
-    // image_scale(1000);
-    // image_unsharpen(img, 3);
     image_desaturate();
   }
     
@@ -45,7 +41,7 @@ class PFM_spiral implements pfm {
     pen_up();
     x =  radius*cos(radians(alpha))+img.width/2;
     y = -radius*sin(radians(alpha))+img.height/2;
-    move_abs(0, x, y);
+    move_abs(x, y);
     xa = 0;
     xb = 0;
     ya = 0;
@@ -92,9 +88,8 @@ class PFM_spiral implements pfm {
         pen_up();
       }
 
-      int pen_number = int(map(brightness(c), 0, 255, 0, pen_count-1)+0.5);
-      move_abs(pen_number, xa, ya);
-      move_abs(pen_number, xb, yb);
+      move_abs(xa, ya);
+      move_abs(xb, yb);
     }
     
     pen_up();
