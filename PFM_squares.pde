@@ -4,25 +4,21 @@
 
 class PFM_squares implements pfm {
 
-  final int    squiggle_length = 2000;      // How often to lift the pen
-  final int    adjustbrightness = 5;        // How fast it moves from dark to light, over-draw
+  final int    squiggle_length = 200;      // How often to lift the pen
+  final int    adjustbrightness = 1;        // How fast it moves from dark to light, over-draw
   final float  desired_brightness = 255;    // How long to process.  You can always stop early with "s" key
  
-  int          tests = 4;                  // Reasonable values:  13 for development, 720 for final
-  int          line_length = int(random(3, 30));;           // Reasonable values:  3 through 100
+  int          tests = 150;                  // Reasonable values:  13 for development, 720 for final
+  int          line_length = int(random(10, 60));;           // Reasonable values:  3 through 100
  
   int          squiggle_count;
   int          darkest_x;
   int          darkest_y;
   float        darkest_value;
-  float        darkest_neighbor = 200;
+  float        darkest_neighbor = 255;  
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void pre_processing() {
-    // image_crop();
-    // image_scale(1000);
-    // image_unsharpen(img, 3);
-    // image_boarder("b6.png", 0, 0);
      image_desaturate();
   }
   
@@ -46,35 +42,19 @@ class PFM_squares implements pfm {
     pen_color = 0;
   
     find_darkest_neighbor(x, y);
-    move_abs(0, darkest_x, darkest_y);
+    move_abs(darkest_x, darkest_y);
     pen_down();
     
     for (int s = 0; s < squiggle_length; s++) {
       find_darkest_neighbor(x, y);
       bresenham_lighten(x, y, darkest_x, darkest_y, adjustbrightness);
-      move_abs(0, darkest_x, darkest_y);
+      move_abs(darkest_x, darkest_y);
       x = darkest_x;
       y = darkest_y;
     }
     pen_up();
   }
-  
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
-  private void find_darkest() {
-    darkest_value = 257;
-    int darkest_loc = 0;
-    
-    for (int loc=0; loc < img.width * img.height; loc++) {
-      float r = brightness(img.pixels[loc]);
-      if (r < darkest_value) {
-        darkest_value = r + random(millis());
-        darkest_loc = loc;
-      }
-    }
-    darkest_x = darkest_loc % img.width;
-    darkest_y = (darkest_loc-darkest_x) / img.width;
-  }
-  
+   
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   private void find_darkest_area() {
     // Warning, Experimental: 
@@ -109,12 +89,12 @@ class PFM_squares implements pfm {
     float start_angle;
     float delta_angle;
     
-    start_angle = 36 + degrees( ( sin(radians(start_x/9+46)) + cos(radians(start_y/26+26)) ));
-    delta_angle = 360.0 / (float)tests;
+    start_angle = degrees( ( sin(radians(start_x/9+46)) + cos(radians(start_y/26+26)) ));
+    delta_angle = 90;//360.0 / (float)tests;
     
-    for (int d=0; d<tests; d++) {
-      float b = bresenham_avg_brightness(start_x, start_y, line_length, (delta_angle * d) + start_angle);
-    }
+    for (int d=0; d<tests; d++) 
+      bresenham_avg_brightness(start_x, start_y, line_length, (delta_angle * d) + start_angle);
+    
   }
   
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,9 +121,7 @@ class PFM_squares implements pfm {
         darkest_y = p.y;
         darkest_neighbor = (float)sum_brightness / (float)count_brightness;
       }
-      //println(x0+","+y0+"  "+p.x+","+p.y+"  brightness:"+sum_brightness / count_brightness+"  darkest:"+darkest_neighbor+"  "+darkest_x+","+darkest_y); 
     }
-    //println();
     return( sum_brightness / count_brightness );
   }
   

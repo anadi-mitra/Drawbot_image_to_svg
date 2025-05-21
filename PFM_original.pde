@@ -5,13 +5,13 @@
 
 class PFM_original implements pfm {
 
-  final int    squiggle_length = 1000;      // How often to lift the pen
-  final int    adjustbrightness = 2;       // How fast it moves from dark to light, over-draw
-  final float  desired_brightness = 254;   // How long to process.  You can always stop early with "s" key
-  final int    squiggles_till_first_change = 250;
+  final int    squiggle_length = 400;      // How often to lift the pen
+  final int    adjustbrightness = 1;       // How fast it moves from dark to light, over-draw
+  final float  desired_brightness = 255;   // How long to process.  You can always stop early with "s" key
+  final int    squiggles_till_first_change = 222;
 
   int          tests = 100;                 // Reasonable values:  13 for development, 720 for final
-  int          line_length = int(random(3, 30));  // Reasonable values:  3 through 100
+  int          line_length = int(random(6, 100));  // Reasonable values:  3 through 100
 
   int          squiggle_count;
   int          darkest_x;
@@ -21,16 +21,16 @@ class PFM_original implements pfm {
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void pre_processing() {
-    image_scale(int(image_size_x / pen_width));
+    //image_scale(int(image_size_x / pen_width));
     image_desaturate();
   }
   
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void find_path() {
     find_squiggle();
-    if (avg_imgage_brightness() > desired_brightness ) {
+    if (avg_imgage_brightness() > desired_brightness ) 
       state++;
-    }
+    
   }
   
   /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,33 +45,17 @@ class PFM_original implements pfm {
     pen_color = 0;
   
     find_darkest_neighbor(x, y);
-    move_abs(0, darkest_x, darkest_y);
+    move_abs(darkest_x, darkest_y);
     pen_down();
     
     for (int s = 0; s < squiggle_length; s++) {
       find_darkest_neighbor(x, y);
       bresenham_lighten(x, y, darkest_x, darkest_y, adjustbrightness);
-      move_abs(0, darkest_x, darkest_y);
+      move_abs(darkest_x, darkest_y);
       x = darkest_x;
       y = darkest_y;
     }
     pen_up();
-  }
-  
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
-  private void find_darkest() {
-    darkest_value = 257;
-    int darkest_loc = 0;
-    
-    for (int loc=0; loc < img.width * img.height; loc++) {
-      float r = brightness(img.pixels[loc]);
-      if (r < darkest_value) {
-        darkest_value = r + random(1);
-        darkest_loc = loc;
-      }
-    }
-    darkest_x = darkest_loc % img.width;
-    darkest_y = (darkest_loc-darkest_x) / img.width;
   }
   
   /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,8 +64,8 @@ class PFM_original implements pfm {
     // Finds the darkest square area by down sampling the img into a much smaller area then finding 
     // the darkest pixel within that.  It returns a random pixel within that darkest area.
     
-    int area_size = 5;
-    darkest_value = 999;
+    int area_size = 4;
+    darkest_value = 200;
     int darkest_loc = 1;
     
     PImage img2;
@@ -136,7 +120,7 @@ class PFM_original implements pfm {
     }
     
     for (int d=0; d<tests; d++) {
-      float b = bresenham_avg_brightness(start_x, start_y, line_length, (delta_angle * d) + start_angle);
+      bresenham_avg_brightness(start_x, start_y, line_length, (delta_angle * d) + start_angle);
     }
   }
   
@@ -163,10 +147,8 @@ class PFM_original implements pfm {
         darkest_x = p.x;
         darkest_y = p.y;
         darkest_neighbor = (float)sum_brightness / (float)count_brightness;
-      }
-      //println(x0+","+y0+"  "+p.x+","+p.y+"  brightness:"+sum_brightness / count_brightness+"  darkest:"+darkest_neighbor+"  "+darkest_x+","+darkest_y); 
+      } 
     }
-    //println();
     return( sum_brightness / count_brightness );
   }
   
