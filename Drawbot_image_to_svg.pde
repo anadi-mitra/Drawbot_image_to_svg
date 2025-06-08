@@ -5,7 +5,7 @@ import processing.pdf.*;
 Class cl = null;
 pfm ocl;
 int current_pfm = 0;
-String[] pfms = { "PFM_spiral", "PFM_squares", "PFM_original", "PFM_squares2", "PFM_original2"}; 
+String[] pfms = { "PFM_spiral2", "PFM_squares", "PFM_original", "PFM_triangle", "PFM_original2","PFM_squiggle"}; 
 
 int     state = 1;
 int     display_line_count;
@@ -22,7 +22,6 @@ int     mx = 0;
 int     my = 0;
 int     morgx = 0;
 int     morgy = 0;
-int     pen_color = 0;
 boolean is_pen_down;
 String  path_selected = "";
 String  file_selected = "";
@@ -40,13 +39,13 @@ void setup() {
   size(1600, 900,P3D);
   frame.setLocation(200, 200);
   surface.setResizable(true);
-  surface.setTitle("Drawbot_image_to_gcode_v2, version 3.75");
+  surface.setTitle("Drawbot_image_to_svg, version 1.0");
   colorMode(RGB);
   frameRate(999);
   randomSeed(3);
   d1 = new botDrawing();
   loadInClass(pfms[current_pfm]);
-  String url=null;//"/home/anadi/Programs/pico/sketch/rawImages/image1.jpg";
+  String url=null;//"/home/anadi/Programs/pico/sketch/rawImages/done/peaky-blinders-haircut-tommy-shelby.jpg";
     // Check if a command-line argument was provided
   if (args != null && args.length > 0) {
     url = args[0];  // Take the first argument as the URL
@@ -77,9 +76,10 @@ void setup() {
   basefile_selected = fileparts[0];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 void draw() {
-  if (state != 3) { background(255, 255, 255); }
+  if (state != 3) {
+    background(255, 255, 255); 
+  }
   scale(screen_scale);
   translate(mx, my);
   rotate(HALF_PI*screen_rotate);
@@ -106,7 +106,7 @@ void draw() {
     break;
   case 5: 
     d1.render_some(display_line_count);
-    blendMode(BLEND);  
+    blendMode(MULTIPLY);  
     noLoop();
     break;
   default:
@@ -146,8 +146,7 @@ void keyReleased() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 void keyPressed() {
-  if (keyCode == CONTROL) { ctrl_down = true; }
-
+  
   if (key == 'p') {
     current_pfm ++;
     if (current_pfm >= pfms.length) { current_pfm = 0; }
@@ -155,37 +154,43 @@ void keyPressed() {
     state = 2;
   }
   
-  if (key == ']') { screen_scale *= 1.05; }
-  if (key == '[') { screen_scale *= 1 / 1.05; }
-  if (key == 's') { if (state == 3) { state++; } }
-  if (key == 'i') {
+  else if (key >= '1' && key <= '6') {
+    current_pfm =key-48-1;
+    loadInClass(pfms[current_pfm]); 
+    state = 2;
+  }
+  
+  else if (key == ']') { screen_scale *= 1.05; }
+  else if (key == '[') { screen_scale *= 1 / 1.05; }
+  else if (key == 's') { if (state == 3) { state++; } }
+  else if (key == 'i') {
     create_svg_file(display_line_count);
   }
-  if (key == '<') {
-    int delta = -20000;
+  else if (key == '<') {
+    int delta = -5000;
     display_line_count = int(display_line_count + delta);
     display_line_count = constrain(display_line_count, 0, d1.line_count);
     
   }
-  if (key == '>') {
-    int delta = 20000;
+  else if (key == '>') {
+    int delta = 5000;
     display_line_count = int(display_line_count + delta);
     display_line_count = constrain(display_line_count, 0, d1.line_count);
     
   }
-  if (key == ',') {
-    int delta = -1000;
+  else if (key == ',') {
+    int delta = -50;
     display_line_count = int(display_line_count + delta);
     display_line_count = constrain(display_line_count, 0, d1.line_count);
     
   }
-  if (key == '.') {
-    int delta = 1000;
+  else if (key == '.') {
+    int delta = 50;
     display_line_count = int(display_line_count + delta);
     display_line_count = constrain(display_line_count, 0, d1.line_count);
     
   }
-  if (key == 'r') { 
+  else if (key == 'r') { 
     screen_rotate ++;
     if (screen_rotate == 4) { screen_rotate = 0; }
     
