@@ -86,12 +86,6 @@ void lighten_one_pixel(int adjustbrightness, int x, int y) {
   img.pixels[loc] = c;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-void image_scale(int new_width) {
-  if (img.width != new_width) {
-    img.resize(new_width, 0);
-  }
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 float avg_imgage_brightness() {
@@ -104,55 +98,6 @@ float avg_imgage_brightness() {
   return(b / (img.width * img.height));
 }
   
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-void image_crop() {
-  // This will center crop to the desired image size image_size_x and image_size_y
-  
-  PImage img2;
-  float desired_ratio = image_size_x / image_size_y;
-  float current_ratio = (float)img.width / (float)img.height;
-  
-  
-  if (current_ratio < desired_ratio) {
-    int desired_x = img.width;
-    int desired_y = int(img.width / desired_ratio);
-    int half_y = (img.height - desired_y) / 2;
-    img2 = createImage(desired_x, desired_y, RGB);
-    img2.copy(img, 0, half_y, desired_x, desired_y, 0, 0, desired_x, desired_y);
-  } else {
-    int desired_x = int(img.height * desired_ratio);
-    int desired_y = img.height;
-    int half_x = (img.width - desired_x) / 2;
-    img2 = createImage(desired_x, desired_y, RGB);
-    img2.copy(img, half_x, 0, desired_x, desired_y, 0, 0, desired_x, desired_y);
-  }
-
-  img = img2;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-void image_boarder(String fname, int shrink, int blur) {
-  // A quick and dirty way of softening the edges of your drawing.
-  // Look in the boarders directory for some examples.
-  // Ideally, the boarder will have similar dimensions as the image to be drawn.
-  // For far more control, just edit your input image directly.
-  // Most of the examples are pretty heavy handed so you can "shrink" them a few pixels as desired.
-  // It does not matter if you use a transparant background or just white.  JPEG or PNG, it's all good.
-  //
-  // fname:   Name of boarder file.
-  // shrink:  Number of pixels to pull the boarder away, 0 for no change. 
-  // blur:    Guassian blur the boarder, 0 for no blur, 10+ for a lot.
-  
-  //PImage boarder = createImage(img.width+(shrink*2), img.height+(shrink*2), RGB);
-  //PImage temp_boarder = loadImage("boarder/" + fname);
-  //temp_boarder.resize(img.width, img.height);
-  //temp_boarder.filter(GRAY);
-  //temp_boarder.filter(INVERT);
-  //temp_boarder.filter(BLUR, blur);
-  
-  //boarder.copy(temp_boarder, 0, 0, temp_boarder.width, temp_boarder.height, 0, 0, boarder.width, boarder.height);
-  //img.blend(temp_boarder, shrink, shrink, img.width, img.height,  0, 0, img.width, img.height, ADD); 
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 void image_unsharpen(PImage img, int amount) {
