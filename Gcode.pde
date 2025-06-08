@@ -70,7 +70,7 @@ void create_svg_file (int line_count) {
         } 
         else {
           color c = color(#312b2b);
-          OUTPUT.println("<polyline fill=\"none\" stroke=\"#" + hex(c, 6) + "\" stroke-width=\"1.0\" stroke-opacity=\"1\" points=\"");
+          OUTPUT.println("<polyline fill=\"none\" stroke=\"#" + hex(c, 6) + "\" stroke-width=\"0.7\" stroke-opacity=\"0.9\" points=\"");
           String buf = svg_format(gcode_scaled_x1) + "," + svg_format(gcode_scaled_y1);
           OUTPUT.println(buf);
           drawing_polyline = true;
