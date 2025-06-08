@@ -60,7 +60,7 @@ String gname = "/home/anadi/Programs/pico/sketch/svg/" + basefile_selected + tim
 After saving the project in `Processing` simply export the project from `files` menu.
 ## Running 
 ```java
-<path_to_export_location>/application.linux64/Drawbot_image_to_svg <path_to_image> 
+path_to_exported_application/Drawbot_image_to_svg <path_to_image> 
 ```
 ## Issues
 `OpenGL` might throw this error:
