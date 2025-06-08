@@ -5,8 +5,8 @@
 
 class PFM_original implements pfm {
 
-  final int    squiggle_length = 400;      // How often to lift the pen
-  final int    adjustbrightness = 1;       // How fast it moves from dark to light, over-draw
+  final int    squiggle_length = int(random(200, 700));  // 
+  final int    adjustbrightness = 15;       // How fast it moves from dark to light, over-draw
   final float  desired_brightness = 255;   // How long to process.  You can always stop early with "s" key
   final int    squiggles_till_first_change = 222;
 
@@ -42,8 +42,7 @@ class PFM_original implements pfm {
     x = darkest_x;
     y = darkest_y;
     squiggle_count++;
-    pen_color = 0;
-  
+      
     find_darkest_neighbor(x, y);
     move_abs(darkest_x, darkest_y);
     pen_down();

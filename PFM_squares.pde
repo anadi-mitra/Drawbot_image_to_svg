@@ -1,15 +1,13 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 // This path finding module makes some wavy squares
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class PFM_squares implements pfm {
 
-  final int    squiggle_length = 200;      // How often to lift the pen
-  final int    adjustbrightness = 1;        // How fast it moves from dark to light, over-draw
-  final float  desired_brightness = 255;    // How long to process.  You can always stop early with "s" key
+  final int    squiggle_length = 400;      // How often to lift the pen
+  final int    adjustbrightness = 15;        // How fast it moves from dark to light, over-draw
+  final float  desired_brightness = 255;    // How long to process.
  
-  int          tests = 150;                  // Reasonable values:  13 for development, 720 for final
-  int          line_length = int(random(10, 60));;           // Reasonable values:  3 through 100
+  int          tests = 150;                  // 13-720
+  int          line_length = int(random(10, 60));;           //3-100
  
   int          squiggle_count;
   int          darkest_x;
@@ -17,20 +15,15 @@ class PFM_squares implements pfm {
   float        darkest_value;
   float        darkest_neighbor = 255;  
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void pre_processing() {
      image_desaturate();
   }
-  
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void find_path() {
     find_squiggle();
     if (avg_imgage_brightness() > desired_brightness ) {
       state++;
     }
   }
-  
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   private void find_squiggle() {
     int x, y;
   
@@ -39,8 +32,7 @@ class PFM_squares implements pfm {
     x = darkest_x;
     y = darkest_y;
     squiggle_count++;
-    pen_color = 0;
-  
+    
     find_darkest_neighbor(x, y);
     move_abs(darkest_x, darkest_y);
     pen_down();
@@ -55,9 +47,7 @@ class PFM_squares implements pfm {
     pen_up();
   }
    
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   private void find_darkest_area() {
-    // Warning, Experimental: 
     // Finds the darkest square area by down sampling the img into a much smaller area then finding 
     // the darkest pixel within that.  It returns a random pixel within that darkest area.
     
@@ -82,22 +72,18 @@ class PFM_squares implements pfm {
     darkest_x = darkest_x * area_size + int(random(area_size));
     darkest_y = darkest_y * area_size + int(random(area_size));
   }
-
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
+  float start_angle=(int)(45*random(0,2));
   private void find_darkest_neighbor(int start_x, int start_y) {
     darkest_neighbor = millis()%500;
-    float start_angle;
     float delta_angle;
     
-    start_angle = degrees( ( sin(radians(start_x/9+46)) + cos(radians(start_y/26+26)) ));
-    delta_angle = 90;//360.0 / (float)tests;
+    delta_angle = 90;
     
     for (int d=0; d<tests; d++) 
-      bresenham_avg_brightness(start_x, start_y, line_length, (delta_angle * d) + start_angle);
+      bresenham_avg_brightness(start_x, start_y, line_length, delta_angle*d+start_angle);
     
   }
   
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////
   float bresenham_avg_brightness(int x0, int y0, float distance, float degree) {
     int x1, y1;
     int sum_brightness = 0;
@@ -124,7 +110,7 @@ class PFM_squares implements pfm {
     }
     return( sum_brightness / count_brightness );
   }
-  
+
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void post_processing() {
   }

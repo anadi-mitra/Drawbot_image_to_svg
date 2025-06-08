@@ -1,22 +1,21 @@
 class PFM_original2 implements pfm {
 
-  final int    squiggle_length = 100;      // How often to lift the pen
-  final int    adjustbrightness = 1;       // How fast it moves from dark to light, over-draw
+  final int    squiggle_length = int(random(200, 700));  //
+  final int    adjustbrightness = 25;       // How fast it moves from dark to light, over-draw
   final float  desired_brightness = 255;   // How long to process.  You can always stop early with "s" key
-  final int    squiggles_till_first_change = 255;
+  final int    squiggles_till_first_change = 222;
 
-  int          tests = 150;                 // Reasonable values:  13 for development, 720 for final
-  int          line_length = int(random(2, 50));  // Reasonable values:  3 through 100
+  int          tests = 300;                 // Reasonable values:  13 for development, 720 for final
+  int          line_length = int(random(6, 100));  // Reasonable values:  3 through 100
 
   int          squiggle_count;
   int          darkest_x;
   int          darkest_y;
   float        darkest_value;
-  float        darkest_neighbor = 255;
+  float        darkest_neighbor = 256;
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void pre_processing() {
-    //image_scale(int(image_size_x / pen_width));
     image_desaturate();
   }
   
@@ -25,20 +24,17 @@ class PFM_original2 implements pfm {
     find_squiggle();
     if (avg_imgage_brightness() > desired_brightness ) 
       state++;
-    
   }
   
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   private void find_squiggle() {
     int x, y;
   
-    //find_darkest();
     find_darkest_area();
     x = darkest_x;
     y = darkest_y;
     squiggle_count++;
-    pen_color = 0;
-  
+    
     find_darkest_neighbor(x, y);
     move_abs(darkest_x, darkest_y);
     pen_down();
@@ -59,8 +55,8 @@ class PFM_original2 implements pfm {
     // Finds the darkest square area by down sampling the img into a much smaller area then finding 
     // the darkest pixel within that.  It returns a random pixel within that darkest area.
     
-    int area_size = 5;
-    darkest_value = 255;
+    int area_size = 4;
+    darkest_value = 200;
     int darkest_loc = 1;
     
     PImage img2;
@@ -83,13 +79,13 @@ class PFM_original2 implements pfm {
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   private void find_darkest_neighbor(int start_x, int start_y) {
-    darkest_neighbor = 255;
+    darkest_neighbor = 257;
     float delta_angle;
     float start_angle;
-    
+
     start_angle = random(-360, -1);    // gradiant magic
-    
-    if (squiggle_count < squiggles_till_first_change) { 
+
+    if (squiggle_count < squiggles_till_first_change) {
       delta_angle = 360.0 / (float)tests;
     } else {
       delta_angle = 180 + 7 / (float)tests;
