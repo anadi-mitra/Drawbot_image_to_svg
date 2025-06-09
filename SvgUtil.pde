@@ -1,14 +1,11 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 void pen_up() {
   is_pen_down = false;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 void pen_down() {
   is_pen_down = true;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 void move_abs(float x, float y) {
   
   d1.addline(is_pen_down, old_x, old_y, x, y);
@@ -20,7 +17,6 @@ void move_abs(float x, float y) {
   old_y = y;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 // Thanks to Vladimir Bochkov for helping me debug the SVG international decimal separators problem.
 String svg_format (Float n) {
   final char regional_decimal_separator = ',';
@@ -31,16 +27,14 @@ String svg_format (Float n) {
   return s;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 // Thanks to John Cliff for getting the SVG output moving forward.
 void create_svg_file (int line_count) {
   boolean drawing_polyline = false;
   
-  // Inkscape versions before 0.91 used 90dpi, Today most software assumes 96dpi.
-  float svgdpi = 1.0;//3.6;
-  String timestamp =  nf(day(), 2)+"." + nf(month(), 2)+"."+nf(year(), 4)+ "_" + 
-                   nf(hour(), 2)+":" + nf(minute(), 2)+":" + nf(second(), 2);
-
+  // After setting svg height and width in 'px' the output have exactly the same 
+  // dimensions as of original image, so no need to resize the svg
+  String timestamp =  nf(day(), 2)+"." + nf(month(), 2)+"."+nf(year(), 4)+ "_" + nf(hour(), 2)+"." + nf(minute(), 2)+"." + nf(second(), 2);
+  //change "/home/anadi/Programs/pico/sketch/svg/" to your desired path
   String gname = "/home/anadi/Programs/pico/sketch/svg/" + basefile_selected + timestamp+  ".svg";
   OUTPUT = createWriter( gname);
   OUTPUT.println("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
@@ -70,6 +64,7 @@ void create_svg_file (int line_count) {
         } 
         else {
           color c = color(#312b2b);
+          //you can change the stroke opacity in this line
           OUTPUT.println("<polyline fill=\"none\" stroke=\"#" + hex(c, 6) + "\" stroke-width=\"0.7\" stroke-opacity=\"0.9\" points=\"");
           String buf = svg_format(gcode_scaled_x1) + "," + svg_format(gcode_scaled_y1);
           OUTPUT.println(buf);
@@ -87,5 +82,3 @@ void create_svg_file (int line_count) {
   OUTPUT.close();
   println("SVG created:  " + gname);
 }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
