@@ -1,4 +1,4 @@
-// This path finding module makes some wavy squares
+// This path finding module makes square waves
 
 class PFM_squares implements pfm {
 
@@ -111,11 +111,9 @@ class PFM_squares implements pfm {
     return( sum_brightness / count_brightness );
   }
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void post_processing() {
   }
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void output_parameters() {
   }
 

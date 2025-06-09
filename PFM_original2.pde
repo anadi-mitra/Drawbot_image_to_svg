@@ -14,19 +14,17 @@ class PFM_original2 implements pfm {
   float        darkest_value;
   float        darkest_neighbor = 256;
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void pre_processing() {
     image_desaturate();
+    image_posterize(6);
   }
   
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void find_path() {
     find_squiggle();
     if (avg_imgage_brightness() > desired_brightness ) 
       state++;
   }
   
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   private void find_squiggle() {
     int x, y;
   
@@ -49,13 +47,12 @@ class PFM_original2 implements pfm {
     pen_up();
   }
   
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   private void find_darkest_area() {
     // Warning, Experimental: 
     // Finds the darkest square area by down sampling the img into a much smaller area then finding 
     // the darkest pixel within that.  It returns a random pixel within that darkest area.
     
-    int area_size = 4;
+    int area_size = 2;
     darkest_value = 200;
     int darkest_loc = 1;
     
@@ -76,8 +73,7 @@ class PFM_original2 implements pfm {
     darkest_x = darkest_x * area_size + int(random(area_size));
     darkest_y = darkest_y * area_size + int(random(area_size));
   }
-
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
+    
   private void find_darkest_neighbor(int start_x, int start_y) {
     darkest_neighbor = 257;
     float delta_angle;
@@ -92,11 +88,10 @@ class PFM_original2 implements pfm {
     }
     
     for (int d=0; d<tests; d++) {
-      bresenham_avg_brightness(start_x, start_y, line_length, (delta_angle * d) + start_angle);
+      bresenham_avg_brightness(start_x, start_y, line_length, (delta_angle*d)+start_angle);
     }
   }
   
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////
   float bresenham_avg_brightness(int x0, int y0, float distance, float degree) {
     int x1, y1;
     int sum_brightness = 0;
@@ -124,11 +119,9 @@ class PFM_original2 implements pfm {
     return( sum_brightness / count_brightness );
   }
   
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void post_processing() {
   }
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void output_parameters() {
   }
 

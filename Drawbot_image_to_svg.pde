@@ -5,7 +5,7 @@ import processing.pdf.*;
 Class cl = null;
 pfm ocl;
 int current_pfm = 0;
-String[] pfms = { "PFM_spiral2", "PFM_squares", "PFM_original", "PFM_triangle", "PFM_original2","PFM_squiggle"}; 
+String[] pfms = { "PFM_spiral", "PFM_squares", "PFM_original", "PFM_triangle", "PFM_original2","PFM_squiggle"}; 
 
 int     state = 1;
 int     display_line_count;
@@ -34,7 +34,6 @@ botDrawing d1;
 
 float pen_distribution;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup() {
   size(1600, 900,P3D);
   frame.setLocation(200, 200);
@@ -45,6 +44,7 @@ void setup() {
   randomSeed(3);
   d1 = new botDrawing();
   loadInClass(pfms[current_pfm]);
+  
   String url=null;//"/home/anadi/Programs/pico/sketch/rawImages/done/peaky-blinders-haircut-tommy-shelby.jpg";
     // Check if a command-line argument was provided
   if (args != null && args.length > 0) {
@@ -114,8 +114,6 @@ void draw() {
   }
 }
 
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup_squiggles() {
   d1.lines.clear();
   d1.line_count = 0;
@@ -139,12 +137,10 @@ void setup_squiggles() {
   state++;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 void keyReleased() {
   if (keyCode == CONTROL) { ctrl_down = false; }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 void keyPressed() {
   
   if (key == 'p') {
@@ -215,7 +211,6 @@ void keyPressed() {
   redraw();
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 public void loadInClass(String pfm_name){
   String className = this.getClass().getName() + "$" + pfm_name;
   try {
@@ -240,23 +235,19 @@ public void loadInClass(String pfm_name){
        e.printStackTrace();
     }
   }
-  //println("\nloaded PFM: " + className); 
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 void mousePressed() {
   morgx = mouseX - mx; 
   morgy = mouseY - my; 
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 void mouseDragged() {
   mx = mouseX-morgx; 
   my = mouseY-morgy; 
   redraw();
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 // This is the pfm interface, it contains the only methods the main code can call.
 // As well as any variables that all pfm modules must have.
 interface pfm {
@@ -265,5 +256,3 @@ interface pfm {
   public void post_processing();
   public void output_parameters();
 }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -10,7 +10,6 @@ void image_blur(int amount) {
   img.filter(BLUR, amount);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 void image_rotate() {
   //image[y][x]                                     // assuming this is the original orientation
   //image[x][original_width - y]                    // rotated 90 degrees ccw
@@ -33,7 +32,6 @@ void image_rotate() {
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 void lighten_one_pixel(int adjustbrightness, int x, int y) {
   int loc = (y)*img.width + x;
   float r = brightness (img.pixels[loc]);
@@ -44,8 +42,6 @@ void lighten_one_pixel(int adjustbrightness, int x, int y) {
   img.pixels[loc] = c;
 }
 
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 float avg_imgage_brightness() {
   float b = 0.0;
 

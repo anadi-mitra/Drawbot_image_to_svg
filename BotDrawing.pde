@@ -1,17 +1,13 @@
 import java.util.ArrayList;
 
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // A class to describe all the line segments
     class botDrawing {
         private int line_count = 0;
         ArrayList<botLine> lines = new ArrayList<botLine>();
 
-
         void render_last () {
             lines.get(lines.size()-1).render_with_copic();
         }
-
 
         void render_some (int line_count) {
             for (int i=1; i<line_count; i++) {
@@ -36,7 +32,6 @@ import java.util.ArrayList;
                 prev_x = line.x2;
                 prev_y = line.y2;
                 prev_pen_down = line.pen_down;
-                //prev_pen_number = lines[i].pen_number;
                 lines.add(line);
             }
         }

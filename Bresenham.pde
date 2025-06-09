@@ -1,4 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 class intPoint {
   int x, y;
   
@@ -8,11 +7,11 @@ class intPoint {
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-// Algorithm was developed by Jack Elton Bresenham in 1962
-// http://en.wikipedia.org/wiki/Bresenham's_line_algorithm
-// Traslated from pseudocode labled "Simplification" from the link above.
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+ Algorithm was developed by Jack Elton Bresenham in 1962
+ http://en.wikipedia.org/wiki/Bresenham's_line_algorithm
+ Traslated from pseudocode labled "Simplification" from the link above.
+*/
 ArrayList <intPoint> bresenham(int x0, int y0, int x1, int y1) {
   int sx, sy;
   int err;
@@ -41,14 +40,11 @@ ArrayList <intPoint> bresenham(int x0, int y0, int x1, int y1) {
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-  public void bresenham_lighten(int x0, int y0, int x1, int y1, int adjustbrightness) {
-    ArrayList <intPoint> pnts;
-  
-    pnts = bresenham(x0, y0, x1, y1);
-    for (intPoint p : pnts) {
-      lighten_one_pixel(adjustbrightness * 5, p.x, p.y);
-    }
-  }
+public void bresenham_lighten(int x0, int y0, int x1, int y1, int adjustbrightness) {
+ArrayList <intPoint> pnts;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+pnts = bresenham(x0, y0, x1, y1);
+for (intPoint p : pnts) {
+  lighten_one_pixel(adjustbrightness * 5, p.x, p.y);
+}
+}

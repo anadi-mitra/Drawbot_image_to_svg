@@ -1,8 +1,7 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-// This path finding module is the basis for nearly all my drawings.
-// Find the darkest average line away from my current location and move there.
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/*
+ This path finding module is the basis for nearly all my drawings.
+ Find the darkest average line away from my current location and move there.
+*/
 class PFM_original implements pfm {
 
   final int    squiggle_length = int(random(200, 700));  // 
@@ -19,13 +18,11 @@ class PFM_original implements pfm {
   float        darkest_value;
   float        darkest_neighbor = 256;
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void pre_processing() {
     //image_scale(int(image_size_x / pen_width));
     image_desaturate();
   }
   
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void find_path() {
     find_squiggle();
     if (avg_imgage_brightness() > desired_brightness ) 
@@ -33,7 +30,6 @@ class PFM_original implements pfm {
     
   }
   
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   private void find_squiggle() {
     int x, y;
   
@@ -57,7 +53,6 @@ class PFM_original implements pfm {
     pen_up();
   }
   
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   private void find_darkest_area() {
     // Warning, Experimental: 
     // Finds the darkest square area by down sampling the img into a much smaller area then finding 
@@ -85,7 +80,6 @@ class PFM_original implements pfm {
     darkest_y = darkest_y * area_size + int(random(area_size));
   }
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   private void find_darkest_neighbor(int start_x, int start_y) {
     darkest_neighbor = 257;
     float delta_angle;
@@ -123,7 +117,6 @@ class PFM_original implements pfm {
     }
   }
   
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////
   float bresenham_avg_brightness(int x0, int y0, float distance, float degree) {
     int x1, y1;
     int sum_brightness = 0;
@@ -151,11 +144,9 @@ class PFM_original implements pfm {
     return( sum_brightness / count_brightness );
   }
   
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void post_processing() {
   }
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
   public void output_parameters() {
   }
 

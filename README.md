@@ -24,7 +24,7 @@ Original squiggle PFM
 | ,   | Decrease the total number of lines drawn with 50   |
 | .   | Increase the total number of lines drawn with 50   |
 | i   | Save the `svg` file                                |
-| 1   | load  PFM_spiral2                                  |
+| 1   | load  PFM_spiral                                   |
 | 2   | load  PFM_squares                                  |
 | 3   | load  PFM_original                                 |
 | 4   | load  PFM_triangle                                 |
