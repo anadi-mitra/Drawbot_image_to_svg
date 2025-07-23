@@ -7,6 +7,8 @@ pfm ocl;
 int current_pfm = 0;
 String[] pfms = { "PFM_spiral", "PFM_squares", "PFM_original", "PFM_triangle", "PFM_original2","PFM_squiggle"}; 
 
+int global_cutoff=254;
+int line_length=60;
 int     state = 1;
 int     display_line_count;
 PImage  img_orginal;               // The original image
@@ -113,11 +115,28 @@ void draw() {
     break;
   }
 }
-
 void setup_squiggles() {
   d1.lines.clear();
   d1.line_count = 0;
-  img = loadImage(path_selected, "jpeg");  // Load the image into the program  
+
+  img = loadImage(path_selected);  // Load the image (format auto-detected)
+  img.loadPixels();
+
+  // If the image has transparency (ARGB or ALPHA), blend onto white
+  if (img.format == ARGB || img.format == ALPHA) {
+    PImage whiteBg = createImage(img.width, img.height, RGB);
+    whiteBg.loadPixels();
+    for (int i = 0; i < img.pixels.length; i++) {
+      color c = img.pixels[i];
+      float a = alpha(c) / 255.0;
+      int r = int(lerp(255, red(c), a));
+      int g = int(lerp(255, green(c), a));
+      int b = int(lerp(255, blue(c), a));
+      whiteBg.pixels[i] = color(r, g, b);
+    }
+    whiteBg.updatePixels();
+    img = whiteBg;  // Replace original image with flattened version
+  }
 
   image_rotate();
 
@@ -185,6 +204,34 @@ void keyPressed() {
     display_line_count = int(display_line_count + delta);
     display_line_count = constrain(display_line_count, 0, d1.line_count);
     
+  }
+  else if(key == 'c'){
+    if(global_cutoff>200){
+      global_cutoff-=2;
+      loadInClass(pfms[current_pfm]); 
+      state = 2;
+    }
+  }
+  else if(key == 'v'){
+    if(global_cutoff<260){
+      global_cutoff+=2;
+      loadInClass(pfms[current_pfm]); 
+      state = 2;
+    }
+  }
+  else if (key == 'k') {
+    if(line_length>10){
+      line_length-=10;
+      loadInClass(pfms[current_pfm]); 
+      state = 2;
+    }
+  }
+  else if (key == 'l') {
+    if(line_length<200){
+      line_length+=10;
+      loadInClass(pfms[current_pfm]); 
+      state = 2;
+    }
   }
   else if (key == 'r') { 
     screen_rotate ++;
