@@ -4,10 +4,10 @@ class PFM_squares implements pfm {
 
   final int    squiggle_length = 400;      // How often to lift the pen
   final int    adjustbrightness = 15;        // How fast it moves from dark to light, over-draw
-  final float  desired_brightness = 255;    // How long to process.
+  //final float  desired_brightness = 255;    // How long to process.
  
   int          tests = 150;                  // 13-720
-  int          line_length = int(random(10, 60));;           //3-100
+  //int          line_length = int(random(10, 60));;           //3-100
  
   int          squiggle_count;
   int          darkest_x;
@@ -20,7 +20,7 @@ class PFM_squares implements pfm {
   }
   public void find_path() {
     find_squiggle();
-    if (avg_imgage_brightness() > desired_brightness ) {
+    if (avg_imgage_brightness() > global_cutoff/*desired_brightness*/ ) {
       state++;
     }
   }

@@ -6,11 +6,11 @@ class PFM_squiggle implements pfm {
   public void find_path() {
     color c;
     float b;
-    float dist = random(2, 6);            // Distance between scanlines
+    float dist = line_length/10;//random(2, 6);            // Distance between scanlines
     float step = 0.3;                     // Step size horizontally
     float density = 220;       // Frequency of squiggle
     float ampScale = dist * 0.7;         // Amplitude of squiggle
-    color mask = computeBorderAverage(img);
+    //color mask = computeBorderAverage(img);
 
     for (float y = 0; y < img.height; y += dist) {
       pen_up();
@@ -21,7 +21,7 @@ class PFM_squiggle implements pfm {
         b = map(b, 0, 255, ampScale, 0);
         float offset = sin(radians(x * density)) * b;
         // Mask check
-        if (brightness(mask) <= brightness(c)) {
+        if (global_cutoff/*brightness(mask)*/ <= brightness(c)) {
           pen_up();
         } else {
           pen_down();

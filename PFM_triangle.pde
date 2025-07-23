@@ -4,10 +4,10 @@ class PFM_triangle implements pfm {
 
   final int    squiggle_length = 400;      // How often to lift the pen
   final int    adjustbrightness = 15;        // How fast it moves from dark to light, over-draw
-  final float  desired_brightness = 255;    // How long to process.  You can always stop early with "s" key
+  //final float  desired_brightness = 255;    // How long to process.  You can always stop early with "s" key
  
   int          tests = 150;                  // Reasonable values:  13 for development, 720 for final
-  int          line_length = int(random(10, 60));           // Reasonable values:  3 through 100
+  //int          line_length = int(random(10, 60));           // Reasonable values:  3 through 100
  
   int          squiggle_count;
   int          darkest_x;
@@ -21,7 +21,7 @@ class PFM_triangle implements pfm {
   
   public void find_path() {
     find_squiggle();
-    if (avg_imgage_brightness() > desired_brightness ) {
+    if (avg_imgage_brightness() > /*desired_brightness*/global_cutoff ) {
       state++;
     }
   }

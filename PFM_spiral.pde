@@ -7,7 +7,7 @@ class PFM_spiral implements pfm {
   public void find_path() {
     color c;                               // Sampled color
     float b;                                   // Sampled brightness
-    float dist = random(2, 5);               // Distance between rings
+    float dist = line_length/10;//random(2, 5);               // Distance between rings
     float radius = 1;                      // Current radius
     float aradius;                         // Radius with brighness applied up
     float bradius;                         // Radius with brighness applied down
@@ -17,7 +17,7 @@ class PFM_spiral implements pfm {
     float x, y, xa, ya, xb, yb;                // Current X and Y + jittered X and Y 
     float k;                                   // Current radius
     float endRadius;                           // Largest value the spiral needs to cover the image
-    color mask = computeBorderAverage(img);
+    //color mask = computeBorderAverage(img);
 
     k = density/radius;
     alpha = k;
@@ -63,7 +63,7 @@ class PFM_spiral implements pfm {
         yb = -bradius*sin(radians(alpha))+img.height/2;
 
         // If the sampled color is the mask color do not write to the shape
-        if (brightness(mask) <= brightness(c)) {
+        if (/*brightness(mask)*/global_cutoff <= brightness(c)) {
           pen_up();
         } else {
           pen_down();
