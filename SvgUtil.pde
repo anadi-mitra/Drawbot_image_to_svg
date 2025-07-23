@@ -39,6 +39,9 @@ void create_svg_file (int line_count) {
   OUTPUT = createWriter( gname);
   OUTPUT.println("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
   OUTPUT.println("<svg width=\"" + svg_format((float)img.width) + "px\" height=\"" + svg_format((float)img.height) + "px\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">");
+  OUTPUT.println(
+  "  <rect width=\"100%\" height=\"100%\" fill=\"white\" />"
+  );  //creates a white background for better visibility
   d1.set_pen_continuation_flags();
   
   // Loop over pens backwards to display dark lines last.
